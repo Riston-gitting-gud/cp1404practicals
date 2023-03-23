@@ -1,7 +1,5 @@
 # Menu
 
-# Menu
-
 MENU = "(G)et score\n(P)rint result\n(S)how stars\n(Q)uit"
 MINIMUM_SCORE = 0
 MAXIMUM_SCORE = 100
