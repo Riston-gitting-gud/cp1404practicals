@@ -18,6 +18,10 @@ def main():
             fahrenheit = float(input("Fahrenheit: "))
             celsius = convert_fahrenheit_to_celsius(fahrenheit)
             print(f"Result: {celsius:.2f} C")
+
+            # Hint: celsius = 5 / 9 * (fahrenheit - 32)
+            # Remove the "pass" statement when you are done. It's a placeholder.
+            pass
         else:
             print("Invalid option")
         print(MENU)
