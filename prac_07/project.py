@@ -26,4 +26,33 @@ class Project:
     def __gt__(self, other):
         return self.priority > other.priority
 
+    class ProjectList:
+        def __init__(self):
+            self.projects = []
+
+        def load_projects(self, filename):
+            with open(filename, 'r') as file:
+                lines = file.readlines()[1:]
+                for line in lines:
+                    name, start_date, priority, cost_estimate, completion_percentage = line.strip().split('\t')
+                    project = Project(name, start_date, int(priority), float(cost_estimate), int(completion_percentage))
+                    self.projects.append(project)
+
+        def save_projects(self, filename):
+            with open(filename, 'w') as file:
+                file.write("Name\tStart Date\tPriority\tCost Estimate\tCompletion Percentage\n")
+                for project in self.projects:
+                    file.write(f"{project.name}\t{project.start_date.strftime('%d/%m/%Y')}"
+                               f"\t{project.priority}\t{project.cost_estimate:.2f}\t{project.completion_percentage}\n")
+
+        def display_projects(self):
+            incomplete = sorted([p for p in self.projects if p.completion_percentage < 100])
+            complete = sorted([p for p in self.projects if p.completion_percentage == 100])
+            print("Incomplete projects:")
+            for project in incomplete:
+                print(f"  {project}")
+            print("Completed projects:")
+            for project in complete:
+                print(f"  {project}")
+
 
