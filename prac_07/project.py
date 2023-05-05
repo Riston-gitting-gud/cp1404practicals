@@ -17,4 +17,13 @@ class Project:
     def __repr__(self):
         return str(self)
 
+    def __lt__(self, other):
+        return self.priority < other.priority
+
+    def __eq__(self, other):
+        return self.priority == other.priority
+
+    def __gt__(self, other):
+        return self.priority > other.priority
+
 
