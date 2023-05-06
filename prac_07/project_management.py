@@ -21,10 +21,21 @@ def main():
         if user_input.lower() == 'l':
             file_name = input('Please type in the file to be loaded: ')
             projects = load_projects(file_name)
+
         if user_input.lower() == 'd':
             display_all_projects(projects)
+
         if user_input.lower() == 'u':
             update_project(projects)
+
+        if user_input.lower() == 'f':
+            date_string = input("Show projects that start after date (dd/mm/yy): ")  # e.g., "30/9/2022"
+            date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
+            display_filtered_projects(projects, date)
+
+        if user_input.lower() == 'a':
+            print("Lets add a new project")
+            add_new_project(projects)
 
 
 def sort_by_priority(projects, to_reverse):
@@ -48,6 +59,21 @@ def load_projects(file_name):
         return projects
 
 
+def update_project(projects):
+    projects_str = ''
+    for i, project in enumerate(projects):
+        projects_str = projects_str + str(i) + ' ' + repr(project) + '\n'
+    print(projects_str)
+    project_choice = int(input('Project choice: '))
+    print(repr(projects[project_choice]))
+    new_percentage = input('New Percentage: ')
+    new_priority = input('New Priority: ')
+    if new_percentage != '':
+        projects[project_choice].completion_estimate = int(new_percentage)
+    if new_priority != '':
+        projects[project_choice].priority = int(new_priority)
+
+
 def display_all_projects(projects):
     incomplete_projects = 'Incomplete projects: \n'
     complete_projects = 'Completed projects: \n'
@@ -59,22 +85,32 @@ def display_all_projects(projects):
         else:
             complete_projects = complete_projects + '\t' + repr(project) + '\n'
     display = incomplete_projects + complete_projects
-    display = display.strip()  # do not display the last newline
+    display = display.strip()
     print(display)
 
 
-def update_project(projects):
+def display_filtered_projects(projects, start_date):
     projects_str = ''
-    for i, project in enumerate(projects):
-        projects_str = projects_str + str(i) + ' ' + repr(project) + '\n'
-    # # do not display the last newline
-    # print(display[:len(display) - 2])
+    displayed_project_list = []
+
+    for project in projects:
+        project_date = datetime.datetime.strptime(project.start_date, "%d/%m/%Y").date()
+        if start_date <= project_date:
+            displayed_project_list.append(project)
+    displayed_project_list.sort(key=lambda x: datetime.datetime.strptime(x.start_date, "%d/%m/%Y").date())
+
+    for project in displayed_project_list:
+        projects_str = projects_str + repr(project) + '\n'
+
+    projects_str = projects_str.strip()
     print(projects_str)
-    project_choice = int(input('Project choice: '))
-    print(repr(projects[project_choice]))
-    new_percentage = input('New Percentage: ')
-    new_priority = input('New Priority: ')
-    if new_percentage != '':
-        projects[project_choice].completion_estimate = int(new_percentage)
-    if new_priority != '':
-        projects[project_choice].priority = int(new_priority)
+
+
+def add_new_project(projects):
+    name = input("Name: ")
+    start_date = input("Start date (dd/mm/yy): ")
+    priority = input("Priority: ")
+    cost_estimate = input("Cost estimate: $")
+    completion_estimate = input("Percent complete: ")
+    project = Project(name, start_date, int(priority), float(cost_estimate), int(completion_estimate), len(projects))
+    projects.append(project)
