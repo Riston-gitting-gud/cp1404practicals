@@ -29,13 +29,19 @@ def main():
             update_project(projects)
 
         if user_input.lower() == 'f':
-            date_string = input("Show projects that start after date (dd/mm/yy): ")  # e.g., "30/9/2022"
+            date_string = input("Show projects that start after date (dd/mm/yy): ")
             date = datetime.datetime.strptime(date_string, "%d/%m/%Y").date()
             display_filtered_projects(projects, date)
 
         if user_input.lower() == 'a':
             print("Lets add a new project")
             add_new_project(projects)
+
+        if user_input.lower() == 's':
+            file_name = input('Please type in the file name to save project data to: ')
+            save_projects(projects, file_name)
+
+    print("Thank you for using custom-built project management software.")
 
 
 def sort_by_priority(projects, to_reverse):
@@ -114,3 +120,16 @@ def add_new_project(projects):
     completion_estimate = input("Percent complete: ")
     project = Project(name, start_date, int(priority), float(cost_estimate), int(completion_estimate), len(projects))
     projects.append(project)
+
+
+def save_projects(projects, file_name):
+    with open(file_name, 'w', newline='') as out_file:
+        out_file.write("Name\tStart Date\tPriority\tCost Estimate\tCompletion Percentage\n")
+        for project in projects:
+            out_file.write(f"{project.name}\t{project.start_date}\t{project.priority}"
+                           f"\t{project.cost_estimate}\t{project.completion_estimate}\n")
+        return True
+
+
+if __name__ == "__main__":
+    main()
