@@ -1,10 +1,14 @@
-# Project Management Program
+"""
+Project Management Program
+Actual time taken: 12 hours
+"""
 
 import datetime
 from project import Project
 
 
 def main():
+    """Project Management Program using the class Project"""
     projects = []
     user_input = ''
 
@@ -45,11 +49,13 @@ def main():
 
 
 def sort_by_priority(projects, to_reverse):
+    """Sort projects inside the list according to priority level"""
     result = sorted(projects, key=lambda x: x.priority, reverse=to_reverse)
     return result
 
 
 def load_projects(file_name):
+    """Load projects from txt file"""
     projects = []
     with open(file_name, 'r', newline='') as in_file:
         in_file.readline()
@@ -66,6 +72,7 @@ def load_projects(file_name):
 
 
 def update_project(projects):
+    """Update the details of a project"""
     projects_str = ''
     for i, project in enumerate(projects):
         projects_str = projects_str + str(i) + ' ' + repr(project) + '\n'
@@ -81,6 +88,7 @@ def update_project(projects):
 
 
 def display_all_projects(projects):
+    """Print all completed and incomplete projects"""
     incomplete_projects = 'Incomplete projects: \n'
     complete_projects = 'Completed projects: \n'
     sorted_projects = sort_by_priority(projects, False)
@@ -96,6 +104,7 @@ def display_all_projects(projects):
 
 
 def display_filtered_projects(projects, start_date):
+    """Print projects that start on or after the date entered by the user"""
     projects_str = ''
     displayed_project_list = []
 
@@ -113,6 +122,7 @@ def display_filtered_projects(projects, start_date):
 
 
 def add_new_project(projects):
+    """Add a new project with its information to the list of projects"""
     name = input("Name: ")
     start_date = input("Start date (dd/mm/yy): ")
     priority = input("Priority: ")
@@ -123,6 +133,7 @@ def add_new_project(projects):
 
 
 def save_projects(projects, file_name):
+    """Save existing projects in the list to txt file"""
     with open(file_name, 'w', newline='') as out_file:
         out_file.write("Name\tStart Date\tPriority\tCost Estimate\tCompletion Percentage\n")
         for project in projects:
