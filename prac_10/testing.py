@@ -1,2 +1,1 @@
-# Testing
-print(s)
+print()
